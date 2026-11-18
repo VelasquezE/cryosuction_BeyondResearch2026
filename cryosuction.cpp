@@ -23,10 +23,12 @@
 #include <deal.II/numerics/matrix_creator.h>
 #include <deal.II/numerics/matrix_tools.h>
 
+#include <deal.II/grid/grid_in.h> // read triangulation
+
 #include <fstream>
 #include <iostream>
 
-namespace Step26
+namespace cryosuction
 {
     using namespace dealii;
 
@@ -269,7 +271,11 @@ namespace Step26
         const unsigned int initial_global_refinement = 2;
         const unsigned int n_adaptive_pre_refinement_steps = 4;
 
-        GridGenerator::hyper_L(triangulation);
+        GridIn<dim> grid_in;
+        grid_in.attach_triangulation(triangulation);
+        std::ifstream input_file("../mesh/mesh_2D.msh");
+        grid_in.read_msh(input_file);
+
         triangulation.refine_global(initial_global_refinement);
 
         setup_system();
@@ -387,7 +393,7 @@ int main()
 {
     try
     {
-        using namespace Step26;
+        using namespace cryosuction;
 
         HeatEquation<2> heat_equation_solver;
         heat_equation_solver.run();
