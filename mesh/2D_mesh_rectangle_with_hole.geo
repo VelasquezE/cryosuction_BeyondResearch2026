@@ -1,5 +1,7 @@
 // 2D Mesh rectangle with hole in the middle
 
+Mesh.MshFileVersion = 2.2; // Compatible version with deal.ii
+
 mesh_size = 2; // Normal size without refinement
 mesh_refinement_size = 0.1; 
 r = 3; // Circunference radius
@@ -31,13 +33,16 @@ Physical Surface("Domain", 1) = {1};
 Physical Curve("OuterBoundary", 2) = {1, 2, 3, 4};
 Physical Curve("IceBoundary", 3) = {5, 6};
 
-//Physical Line("Borde inferior") = {1};
-//Physical Line("Carga") = {3};
-//Physical Surface("Mi superficie") = {1};
+Mesh.Algorithm = 8;
 
-Mesh 2; // Generate mesh 2D
+Mesh.RecombineAll = 1;
+Mesh.RecombinationAlgorithm = 3;
 
-Mesh.SurfaceFaces = 1;
-Mesh.Points = 1;
+Mesh.CharacteristicLengthFactor = 2;
+Mesh.Smoothing = 10;
+Show "*";
+
+Mesh 2;
 
 Save "mesh_2D.msh";
+
